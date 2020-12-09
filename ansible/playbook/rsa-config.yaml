@@ -1,0 +1,39 @@
+---
+- name: OpenVPN server
+  hosts: server
+  become: true
+
+  tasks:
+    # - name: Create keys
+    #   shell: /vagrant/scripts/rsa.sh 
+
+    - name: Fetch ca.crt
+      fetch:
+        src: /etc/openvpn/pki/ca.crt
+        dest: ../../key/ca.crt
+        flat: yes
+
+    - name: Fetch client.crt
+      fetch:
+        src: /etc/openvpn/pki/issued/client.crt
+        dest: ../../key/client.crt
+        flat: yes
+
+    - name: Fetch client.key
+      fetch:
+        src: /etc/openvpn/pki/private/client.key
+        dest: ../../key/client.key
+        flat: yes
+
+    # - name: Configure server.conf
+    #   shell: cat /vagrant/config/server.conf > /etc/openvpn/server.conf
+
+    # - name: Start openvpn
+    #   systemd:
+    #     name: openvpn@server
+    #     state: started
+
+    # - name: Enable openvpn
+    #   systemd:
+    #     name: openvpn@server
+    #     enabled: yes

@@ -1,0 +1,67 @@
+---
+- name: Install package
+  hosts: all
+  become: true
+  
+  tasks:
+    - name: Install EPEL
+      yum:
+        name: epel-release
+        state: latest
+
+    - name: Install package
+      yum:
+        name:
+          - openvpn
+          - iperf3
+          - mc
+          - vim
+        state: latest
+
+- name: OpenVPN server
+  hosts: server
+  become: true
+
+  tasks:
+    - name: Create static.key
+      shell: openvpn --genkey --secret /etc/openvpn/static.key
+
+    - name: Fetch static.key
+      fetch:
+        src: /etc/openvpn/static.key
+        dest: ../../config/static.key
+        flat: yes
+
+    - name: Configure server.conf
+      shell: cat /vagrant/config/server.conf > /etc/openvpn/server.conf
+
+    - name: Start openvpn
+      systemd:
+        name: openvpn@server
+        state: started
+
+    - name: Enable openvpn
+      systemd:
+        name: openvpn@server
+        enabled: yes
+
+- name: OpenVPN client
+  hosts: client
+  become: true
+
+  tasks:
+    - name: Configure server.conf
+      shell: cat /vagrant/config/client.conf > /etc/openvpn/server.conf
+    
+    - name: Copy static.key
+      shell: cat /vagrant/config/static.key > /etc/openvpn/static.key  
+
+    - name: Start openvpn
+      systemd:
+        name: openvpn@server
+        state: started
+
+    - name: Enable openvpn
+      systemd:
+        name: openvpn@server
+        enabled: yes

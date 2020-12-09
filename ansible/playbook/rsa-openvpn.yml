@@ -1,0 +1,19 @@
+---
+- name: Install package
+  hosts: all
+  become: true
+  
+  tasks:
+    - name: Install EPEL
+      yum:
+        name: epel-release
+        state: latest
+
+    - name: Install package
+      yum:
+        name:
+          - openvpn
+          - easy-rsa
+          - mc
+          - vim
+        state: latest

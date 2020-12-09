@@ -1,0 +1,26 @@
+---
+- name: OpenVPN server
+  hosts: server
+  become: true
+
+  tasks:
+    - name: Configure server.conf
+      shell: sed -i 's/dev tap/dev tun/' /etc/openvpn/server.conf
+
+    - name: Restart openvpn
+      systemd:
+        name: openvpn@server
+        state: restarted
+
+- name: OpenVPN client
+  hosts: client
+  become: true
+
+  tasks:    
+    - name: Configure server.conf
+      shell: sed -i 's/dev tap/dev tun/' /etc/openvpn/server.conf
+    
+    - name: Restart openvpn
+      systemd:
+        name: openvpn@server
+        state: restarted
