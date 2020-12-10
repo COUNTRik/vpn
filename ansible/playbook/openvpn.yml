@@ -54,6 +54,11 @@
       shell: cat /vagrant/config/client.conf > /etc/openvpn/server.conf
     
     - name: Copy static.key
+      copy:
+        src: ../../config/static.key
+        dest: /vagrant/config/static.key
+
+    - name: Copy static.key
       shell: cat /vagrant/config/static.key > /etc/openvpn/static.key  
 
     - name: Start openvpn

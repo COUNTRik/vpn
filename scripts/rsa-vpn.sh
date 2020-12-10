@@ -24,4 +24,4 @@ echo 'yes' | /usr/share/easy-rsa/3/easyrsa sign-req client client
 
 cat /vagrant/config/rsa-server.conf > /etc/openvpn/server.conf
 
-echo 'iroute 192.168.10.0 255.255.255.0' > /etc/openvpn/client/client
+echo 'iroute 192.168.20.0 255.255.255.0' > /etc/openvpn/client/client
