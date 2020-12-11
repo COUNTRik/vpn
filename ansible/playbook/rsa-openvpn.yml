@@ -53,50 +53,50 @@
     - name: Configure server.conf
       shell: cat /vagrant/config/rsa-server.conf > /etc/openvpn/server.conf
 
-- name: Install RSA OPENVPN server
-  hosts: client
-  become: true
+# - name: Install RSA OPENVPN server
+#   hosts: client
+#   become: true
   
-  tasks:
-    - name: Install EPEL
-      yum:
-        name: epel-release
-        state: latest
+#   tasks:
+#     - name: Install EPEL
+#       yum:
+#         name: epel-release
+#         state: latest
 
-    - name: Install package
-      yum:
-        name:
-          - openvpn
-          - easy-rsa
-          - mc
-          - vim
-        state: latest
+#     - name: Install package
+#       yum:
+#         name:
+#           - openvpn
+#           - easy-rsa
+#           - mc
+#           - vim
+#         state: latest
     
-    - name: enable forwarding ipv4
-      shell: echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+#     - name: enable forwarding ipv4
+#       shell: echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
     
-    - name: restrat network
-      systemd:
-        name: network
-        state: restarted
+#     - name: restrat network
+#       systemd:
+#         name: network
+#         state: restarted
 
-    - name: Copy ca.crt
-      copy:
-        src: ../../key/ca.crt
-        dest: /etc/openvpn/ca.crt
+#     - name: Copy ca.crt
+#       copy:
+#         src: ../../key/ca.crt
+#         dest: /etc/openvpn/ca.crt
 
-    - name: Copy client.crt
-      copy:
-        src: ../../key/client.crt
-        dest: /etc/openvpn/client.crt
+#     - name: Copy client.crt
+#       copy:
+#         src: ../../key/client.crt
+#         dest: /etc/openvpn/client.crt
 
-    - name: Copy client.key
-      copy:
-        src: ../../key/client.key
-        dest: /etc/openvpn/client.key
+#     - name: Copy client.key
+#       copy:
+#         src: ../../key/client.key
+#         dest: /etc/openvpn/client.key
 
-    - name: Selinux
-      shell: setenforce 0
+#     - name: Selinux
+#       shell: setenforce 0
     
-    - name: Configure client.conf
-      shell: cat /vagrant/config/rsa-client.conf > /etc/openvpn/client.conf
+#     - name: Configure client.conf
+#       shell: cat /vagrant/config/rsa-client.conf > /etc/openvpn/client.conf
